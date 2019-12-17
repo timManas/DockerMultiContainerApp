@@ -6,8 +6,8 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 const app = express();
-app.use(cors());
-app.use(bodyParser.json());
+app.use(cors());        
+app.use(bodyParser.json());   
 
 // Postgres Client Setup
 const { Pool } = require('pg');
@@ -20,6 +20,7 @@ const pgClient = new Pool({
 });
 pgClient.on('error', () => console.log('Lost PG connection'));
 
+// CREATES DB TABLE HERE  on Postgres
 pgClient
   .query('CREATE TABLE IF NOT EXISTS values (number INT)')
   .catch(err => console.log(err));
@@ -68,3 +69,11 @@ app.post('/values', async (req, res) => {
 app.listen(5000, err => {
   console.log('Listening');
 });
+
+
+/**
+
+Notes:
+- cors is cross origin resource sharing.
+- bodyparser - parse incoming request and turn into JSON
+ */
