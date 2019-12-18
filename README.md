@@ -26,7 +26,7 @@ Note
 1. Docker-compose.yml file is created in the root directory
 
 How to execute docker-compose
-> docker-compose up
+> docker-compose up --build
 
 
 What does default.conf do ?
