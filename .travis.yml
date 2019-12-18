@@ -1,0 +1,25 @@
+sudo: required
+services:
+    - docker
+
+before_install:
+    - docker build -t timmanas/DockerMultiContainerAppImage -f ./client/Dockerfile.dev ./client
+
+script:
+    - docker run timmanas/DockerMultiContainerAppImage npm test -- --coverage
+
+after_success:
+    - docker build -t timmanas/multi-client ./client
+    - docker build -t timmanas/multi-nginx ./nginx
+    - docker build -t timmanas/multi-server ./server
+    - docker build -t timmanas/multi-worker ./worker
+    
+    # Log in to the DOCKER CLI
+    # What does this do ? It performs login in automatically without user intervention
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+
+    # Take those images and push them to docker hub 
+    - docker push timmanas/multi-client
+    - docker push timmanas/multi-nginx
+    - docker push timmanas/multi-server
+    - docker push timmanas/multi-worker
