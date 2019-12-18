@@ -6,7 +6,7 @@ before_install:
     - docker build -t timmanas/DockerMultiContainerAppImage -f ./client/Dockerfile.dev ./client
 
 script:
-    - docker run timmanas/DockerMultiContainerAppImage npm test -- --coverage
+    - docker run -e CI=true timmanas/DockerMultiContainerAppImage npm test -- --coverage
 
 after_success:
     - docker build -t timmanas/multi-client ./client
